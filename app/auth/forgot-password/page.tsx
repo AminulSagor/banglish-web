@@ -4,8 +4,9 @@ import AuthSubHeader from "../_components/auth-subheader";
 import SocialSignUp from "../_components/social-signup";
 import Link from "next/link";
 import SigninForm from "../_components/signin-form";
+import ForgotPasswordForm from "../_components/forgot-password-form";
 
-const SigninPage = () => {
+const ForgotPasswordPage = () => {
   return (
     <div className="bg-[#F1ECF9] min-h-screen flex flex-col items-center justify-center ">
       <div className="py-20">
@@ -16,14 +17,11 @@ const SigninPage = () => {
                 <BaggageClaim size={100} className="text-purple-400" />
               </div>
               <div>
-                <AuthHeader>Sign In to Banglish</AuthHeader>
-                <AuthSubHeader>
-                  Learn the Language you want to learn
-                </AuthSubHeader>
+                <AuthHeader>Forgot Password </AuthHeader>
+                <AuthSubHeader>Enter your email below</AuthSubHeader>
               </div>
               <div className="bg-white p-8 border border-[#C99DFF] rounded-2xl max-w-xl min-w-xl shadow-md">
-                <SigninForm />
-                <SocialSignUp />
+                <ForgotPasswordForm />
                 <div className="text-center py-8">
                   <Link
                     href="/auth/signup"
@@ -41,4 +39,4 @@ const SigninPage = () => {
   );
 };
 
-export default SigninPage;
+export default ForgotPasswordPage;
