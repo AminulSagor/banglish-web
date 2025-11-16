@@ -15,10 +15,12 @@ import { Input } from "@/components/ui/input";
 import { GradientButton } from "@/components/custom-button";
 
 import { forgotPasswordFormSchema } from "@/schemas/forgot-password-form";
+import { useRouter } from "next/navigation";
 
 type ForgotPasswordFormValues = z.infer<typeof forgotPasswordFormSchema>;
 
 const ForgotPasswordForm = () => {
+  const router = useRouter();
   const form = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordFormSchema),
     defaultValues: {
@@ -33,6 +35,9 @@ const ForgotPasswordForm = () => {
   const onSubmit = (values: ForgotPasswordFormValues) => {
     console.log("Form values:", values);
     // call API here
+    //
+    //
+    router.push("/auth/otp");
   };
 
   return (

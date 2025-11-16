@@ -23,7 +23,7 @@ const SigninPage = () => {
               </div>
               <div className="bg-white p-8 border border-[#C99DFF] rounded-2xl max-w-xl min-w-xl shadow-md">
                 <SigninForm />
-                <SocialSignUp />
+                <SocialSignUp heading="Or, Sign In With" />
                 <div className="text-center py-8">
                   <Link
                     href="/auth/signup"

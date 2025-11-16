@@ -6,8 +6,11 @@ import {
 } from "@/components/ui/input-otp";
 import { GradientButton } from "@/components/custom-button";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const OtpForm = () => {
+  const router = useRouter();
+
   const [otp, setOtp] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -22,6 +25,7 @@ const OtpForm = () => {
 
     console.log("OTP submitted:", otp);
     // call your verify API here
+    router.push("/auth/new-password");
   };
 
   return (

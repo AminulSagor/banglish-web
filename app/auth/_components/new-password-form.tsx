@@ -14,10 +14,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { GradientButton } from "@/components/custom-button";
 import { newPasswordSchema } from "@/schemas/new-password-form";
+import { useRouter } from "next/navigation";
 
 type NewPasswordValues = z.infer<typeof newPasswordSchema>;
 
 const NewPasswordForm = () => {
+  const router = useRouter();
   const form = useForm<NewPasswordValues>({
     resolver: zodResolver(newPasswordSchema),
     defaultValues: {
@@ -32,6 +34,7 @@ const NewPasswordForm = () => {
     });
 
     // call API here, send rememberMe separately if needed
+    router.push("/auth/new-password/congratulations");
   };
 
   return (
