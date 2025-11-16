@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -33,162 +32,10 @@ import {
 } from "@/components/ui/command";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-// ─── BD divisions & districts ────────────────────────────────────────────
-
-const bdDivisions = [
-  {
-    id: "dhaka",
-    name: "Dhaka",
-    districts: [
-      "Dhaka",
-      "Faridpur",
-      "Gazipur",
-      "Gopalganj",
-      "Kishoreganj",
-      "Madaripur",
-      "Manikganj",
-      "Munshiganj",
-      "Narayanganj",
-      "Narsingdi",
-      "Rajbari",
-      "Shariatpur",
-      "Tangail",
-    ],
-  },
-  {
-    id: "chattogram",
-    name: "Chattogram",
-    districts: [
-      "Bandarban",
-      "Brahmanbaria",
-      "Chandpur",
-      "Chattogram",
-      "Cumilla",
-      "Cox's Bazar",
-      "Feni",
-      "Khagrachhari",
-      "Lakshmipur",
-      "Noakhali",
-      "Rangamati",
-    ],
-  },
-  {
-    id: "rajshahi",
-    name: "Rajshahi",
-    districts: [
-      "Bogura",
-      "Joypurhat",
-      "Naogaon",
-      "Natore",
-      "Chapainawabganj",
-      "Pabna",
-      "Rajshahi",
-      "Sirajganj",
-    ],
-  },
-  {
-    id: "khulna",
-    name: "Khulna",
-    districts: [
-      "Bagerhat",
-      "Chuadanga",
-      "Jashore",
-      "Jhenaidah",
-      "Khulna",
-      "Kushtia",
-      "Magura",
-      "Meherpur",
-      "Narail",
-      "Satkhira",
-    ],
-  },
-  {
-    id: "barishal",
-    name: "Barishal",
-    districts: [
-      "Barishal",
-      "Bhola",
-      "Jhalokathi",
-      "Patuakhali",
-      "Pirojpur",
-      "Barguna",
-    ],
-  },
-  {
-    id: "sylhet",
-    name: "Sylhet",
-    districts: ["Habiganj", "Moulvibazar", "Sunamganj", "Sylhet"],
-  },
-  {
-    id: "rangpur",
-    name: "Rangpur",
-    districts: [
-      "Dinajpur",
-      "Gaibandha",
-      "Kurigram",
-      "Lalmonirhat",
-      "Nilphamari",
-      "Panchagarh",
-      "Rangpur",
-      "Thakurgaon",
-    ],
-  },
-  {
-    id: "mymensingh",
-    name: "Mymensingh",
-    districts: ["Jamalpur", "Mymensingh", "Netrokona", "Sherpur"],
-  },
-];
-
-// ─── Schema ──────────────────────────────────────────────────────────────
-
-const baseFields = {
-  fullName: z.string().min(1, "Name is required"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-  country: z.string().min(1, "Country is required"),
-  division: z.string().optional(),
-  district: z.string().optional(),
-};
-
-const signupFormSchema = z
-  .discriminatedUnion("signupWith", [
-    z.object({
-      signupWith: z.literal("phone"),
-      phone: z.string().min(1, "Phone is required"),
-      email: z.string().optional(),
-      ...baseFields,
-    }),
-    z.object({
-      signupWith: z.literal("email"),
-      email: z.string().email("Enter a valid email"),
-      phone: z.string().optional(),
-      ...baseFields,
-    }),
-  ])
-  .superRefine((data, ctx) => {
-    // If country is Bangladesh (assuming code "BD"), require division & district
-    if (data.country === "BD") {
-      if (!data.division) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ["division"],
-          message: "Division is required for Bangladesh",
-        });
-      }
-      if (!data.district) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ["district"],
-          message: "District is required for Bangladesh",
-        });
-      }
-    }
-  });
+import { bdDivisions } from "@/data/divisions";
+import { signupFormSchema } from "@/schemas/sign-up-form";
 
 type SignupFormValues = z.infer<typeof signupFormSchema>;
-
-// ─── Component ───────────────────────────────────────────────────────────
 
 const SignupForm = () => {
   const [openCountry, setOpenCountry] = useState(false);
@@ -222,7 +69,7 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="">
+    <div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {/* Sign up with toggle */}
