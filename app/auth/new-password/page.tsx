@@ -1,10 +1,9 @@
 import { BaggageClaim } from "lucide-react";
 import AuthHeader from "../_components/auth-header";
 import AuthSubHeader from "../_components/auth-subheader";
-import Link from "next/link";
-import ForgotPasswordForm from "../_components/forgot-password-form";
+import NewPasswordForm from "../_components/new-password-form";
 
-const ForgotPasswordPage = () => {
+const NewPasswordPage = () => {
   return (
     <div className="bg-[#F1ECF9] min-h-screen flex flex-col items-center justify-center ">
       <div className="py-20">
@@ -15,19 +14,11 @@ const ForgotPasswordPage = () => {
                 <BaggageClaim size={100} className="text-purple-400" />
               </div>
               <div>
-                <AuthHeader>Forgot Password </AuthHeader>
-                <AuthSubHeader>Enter your email below</AuthSubHeader>
+                <AuthHeader>Set New Password</AuthHeader>
+                <AuthSubHeader>Must be atleast 6 characters long</AuthSubHeader>
               </div>
               <div className="bg-white p-8 border border-[#C99DFF] rounded-2xl max-w-xl min-w-xl shadow-md">
-                <ForgotPasswordForm />
-                <div className="text-center py-8">
-                  <Link
-                    href="/auth/signup"
-                    className="text-[#7A3FAE] hover:underline"
-                  >
-                    Don&apos;t have an account? Register
-                  </Link>
-                </div>
+                <NewPasswordForm />
               </div>
             </div>
           </div>
@@ -37,4 +28,4 @@ const ForgotPasswordPage = () => {
   );
 };
 
-export default ForgotPasswordPage;
+export default NewPasswordPage;

@@ -1,4 +1,6 @@
 "use client";
+
+import { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,12 +15,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { GradientButton } from "@/components/custom-button";
-
 import { signinFormSchema } from "@/schemas/sign-in-form";
+import { Checkbox } from "@/components/ui/checkbox";
+import Link from "next/link";
 
 type SigninFormValues = z.infer<typeof signinFormSchema>;
 
 const SigninForm = () => {
+  // keep rememberMe outside of zod/react-hook-form schema
+  const [rememberMe, setRememberMe] = useState(false);
+
   const form = useForm<SigninFormValues>({
     resolver: zodResolver(signinFormSchema),
     defaultValues: {
@@ -32,21 +38,25 @@ const SigninForm = () => {
   const signupWith = form.watch("signupWith");
 
   const onSubmit = (values: SigninFormValues) => {
-    console.log("Form values:", values);
-    // call API here
+    console.log("Form values:", {
+      ...values,
+      rememberMe, // you still get it here
+    });
+
+    // call API here, send rememberMe separately if needed
   };
 
   return (
     <div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {/* Sign up with toggle */}
+          {/* Sign in with toggle */}
           <FormField
             control={form.control}
             name="signupWith"
             render={({ field }) => (
               <FormItem className="flex justify-between">
-                <FormLabel className="text-[14px] font-medium  text-[#7A3FAE]">
+                <FormLabel className="text-[14px] font-medium text-[#7A3FAE]">
                   Sign In with:
                 </FormLabel>
                 <div className="mt-2 inline-flex rounded-full bg-[#F3E9FF] p-1">
@@ -145,6 +155,26 @@ const SigninForm = () => {
               </FormItem>
             )}
           />
+
+          {/* Remember me + Forgot password (manual checkbox) */}
+          <div className="flex items-center justify-between">
+            <label className="inline-flex items-center gap-2 text-[14px] font-medium text-[#7A3FAE] hover:cursor-pointer">
+              <Checkbox
+                checked={rememberMe}
+                // shadcn Checkbox gives boolean | "indeterminate"
+                onCheckedChange={(checked) => setRememberMe(checked === true)}
+                className="h-4 w-4 rounded border border-[#C99DFF] data-[state=checked]:bg-[#7A3FAE] data-[state=checked]:text-white data-[state=checked]:border-[#7A3FAE]"
+              />
+              <span>Remember me</span>
+            </label>
+
+            <Link
+              href="/auth/forgot-password"
+              className="text-[14px] font-medium text-[#7A3FAE] hover:underline"
+            >
+              Forgot password?
+            </Link>
+          </div>
 
           {/* Submit */}
           <GradientButton type="submit" className="w-full py-4">
