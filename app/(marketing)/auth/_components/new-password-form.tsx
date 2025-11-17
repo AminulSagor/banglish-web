@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { GradientButton } from "@/components/custom-button";
-import { newPasswordSchema } from "@/schemas/new-password-form";
+import { newPasswordSchema } from "@/schemas/new-password-form-schema";
 import { useRouter } from "next/navigation";
 
 type NewPasswordValues = z.infer<typeof newPasswordSchema>;

@@ -33,7 +33,7 @@ import {
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { bdDivisions } from "@/data/divisions";
-import { signupFormSchema } from "@/schemas/sign-up-form";
+import { signupFormSchema } from "@/schemas/sign-up-form-schema";
 
 type SignupFormValues = z.infer<typeof signupFormSchema>;
 
