@@ -43,10 +43,10 @@ export function AppSidebar() {
   const pathname = usePathname();
   return (
     <Sidebar>
-      <SidebarHeader className="bg-amber-50 border-b py-4">
+      <SidebarHeader className="bg-slate-50 border-b py-4">
         <h1 className="text-lg font-semibold">Admin Dashboard</h1>
       </SidebarHeader>
-      <SidebarContent className="bg-amber-50">
+      <SidebarContent className="bg-slate-50">
         <SidebarGroup>
           <SidebarGroupLabel>Main Menu</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -58,8 +58,8 @@ export function AppSidebar() {
                     <SidebarMenuSubButton
                       asChild
                       className={cn(
-                        isActive && 'bg-amber-100',
-                        'py-4 hover:bg-amber-100 '
+                        isActive && 'bg-slate-200',
+                        'py-4 hover:bg-slate-200 '
                       )}
                     >
                       <Link href={item.url} className="flex items-center gap-2">
