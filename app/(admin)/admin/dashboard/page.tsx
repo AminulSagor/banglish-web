@@ -1,5 +1,21 @@
+import RowOne from './_components/row-one';
+import RowThree from './_components/row-three';
+import RowTwo from './_components/row-two';
+
 const DashboardPage = () => {
-  return <div>text demo</div>;
+  return (
+    <div className="p-2 space-y-4">
+      <div className="grid grid-cols-4 gap-2">
+        <RowOne />
+      </div>
+      <div className="grid grid-cols-5 gap-2">
+        <RowTwo />
+      </div>
+      <div className="grid grid-cols-5 gap-2 items-start">
+        <RowThree />
+      </div>
+    </div>
+  );
 };
 
 export default DashboardPage;

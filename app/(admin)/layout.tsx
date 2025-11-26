@@ -11,7 +11,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'Admin Dashboard',
+  title: 'Banglish | Admin Dashboard',
   description: 'Learn Language Faster',
 };
 
@@ -26,7 +26,7 @@ export default function DashboardLayout({
         <SidebarProvider>
           <AppSidebar />
           <main className="grow">
-            <div className="border-b sticky top-0 bg-amber-50 py-4">
+            <div className="border-b sticky top-0 bg-slate-50 py-4">
               <SidebarTrigger />
             </div>
             <div className="bg-slate-100 h-full">
