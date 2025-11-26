@@ -11,7 +11,7 @@ const DashboardPage = () => {
       <div className="grid grid-cols-5 gap-2">
         <RowTwo />
       </div>
-      <div className="grid grid-cols-5 gap-2 items-start">
+      <div className="grid grid-cols-5 gap-2">
         <RowThree />
       </div>
     </div>

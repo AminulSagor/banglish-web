@@ -18,10 +18,14 @@ import {
 import {
   ChartConfig,
   ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { useState } from 'react';
+import { ChartAreaInteractive } from './area-chart';
+import { UserGrowthByCountry } from './user-growth-by-country';
 
 type ChartPoint = {
   month: string;
@@ -93,9 +97,13 @@ const RowTwo = () => {
           </Select>
         </CardHeader>
 
-        <CardContent>
-          <ChartContainer config={chartConfig}>
-            <BarChart accessibilityLayer data={cData[period]}>
+        <CardContent className="h-[480px]">
+          <ChartContainer className="h-full" config={chartConfig}>
+            <BarChart
+              accessibilityLayer
+              data={cData[period]}
+              margin={{ right: 250 }}
+            >
               <CartesianGrid vertical={false} />
               <XAxis
                 dataKey="month"
@@ -116,19 +124,15 @@ const RowTwo = () => {
 
               {/* match dataKey with chartConfig */}
               <Bar dataKey="users" fill="var(--color-users)" radius={4} />
+              <ChartLegend content={<ChartLegendContent />} />
             </BarChart>
           </ChartContainer>
         </CardContent>
-
-        <CardFooter className="flex items-center justify-center">
-          <p className="text-sm text-muted-foreground ">
-            {' '}
-            {period === 'six-month' ? 'Last 6 months' : 'Last 12 months'}
-          </p>
-        </CardFooter>
       </Card>
 
-      <Card className="col-span-3"></Card>
+      {/* <Card className="col-span-3"></Card> */}
+      {/* <ChartAreaInteractive /> */}
+      <UserGrowthByCountry />
     </>
   );
 };

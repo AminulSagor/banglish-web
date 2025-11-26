@@ -150,7 +150,11 @@ const RowThree = () => {
                   </div>
 
                   {/* Button */}
-                  <Button size="sm" variant="destructive">
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    className="hover:cursor-pointer"
+                  >
                     <EyeIcon />
                   </Button>
                 </div>
