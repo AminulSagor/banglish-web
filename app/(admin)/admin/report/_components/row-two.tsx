@@ -26,12 +26,15 @@ import {
   DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { reportsData } from '@/data/reports';
+import Image from 'next/image';
 
 const users = [
   {
@@ -93,19 +96,19 @@ const RowTwo = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const statusList = useMemo(() => {
-    return [...new Set(rooms.map((r) => r.status))];
+    return [...new Set(reportsData.map((r) => r.status))];
   }, []);
 
   // Filter + search
-  const filteredRooms = useMemo(() => {
-    let data = rooms;
+  const filteredReports = useMemo(() => {
+    let data = reportsData;
 
     if (searchTerm.trim() !== '') {
       const s = searchTerm.toLowerCase();
       data = data.filter(
         (r) =>
-          r.name.toLowerCase().includes(s) ||
-          r.createdBy.toLowerCase().includes(s) ||
+          r.reportBy.toLowerCase().includes(s) ||
+          r.roomReportedFrom.toLowerCase().includes(s) ||
           r.id.toLowerCase().includes(s)
       );
     }
@@ -118,11 +121,11 @@ const RowTwo = () => {
   }, [searchTerm, statusFilter]);
 
   // Pagination
-  const totalPages = Math.ceil(filteredRooms.length / pageSize);
-  const paginatedRooms = useMemo(() => {
+  const totalPages = Math.ceil(filteredReports.length / pageSize);
+  const paginatedReports = useMemo(() => {
     const start = (currentPage - 1) * pageSize;
-    return filteredRooms.slice(start, start + pageSize);
-  }, [filteredRooms, currentPage, pageSize]);
+    return filteredReports.slice(start, start + pageSize);
+  }, [filteredReports, currentPage, pageSize]);
 
   useMemo(() => setCurrentPage(1), [searchTerm, statusFilter, pageSize]);
 
@@ -131,7 +134,7 @@ const RowTwo = () => {
       <CardHeader className="border-b">
         <div className="flex justify-between items-center">
           <div className="flex gap-4 items-center">
-            <CardTitle className="text-lg shrink-0">Rooms List</CardTitle>
+            <CardTitle className="text-lg shrink-0">Report List</CardTitle>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
@@ -179,150 +182,157 @@ const RowTwo = () => {
           <TableHeader>
             <TableRow>
               <TableHead>ID</TableHead>
-              <TableHead>Room Name</TableHead>
-              <TableHead>Created By</TableHead>
-              <TableHead>No. of Members</TableHead>
-              <TableHead>Languages</TableHead>
+              <TableHead>Report By</TableHead>
+              <TableHead>Room Reported From</TableHead>
+              <TableHead>Report Type</TableHead>
+              <TableHead>Reported On</TableHead>
+              <TableHead>Report Details</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
-
           <TableBody>
-            {paginatedRooms.map((room) => (
-              <TableRow key={room.id}>
-                <TableCell>{room.id}</TableCell>
-                <TableCell>{room.name}</TableCell>
-                <TableCell>{room.createdBy}</TableCell>
-                <TableCell>{room.members}</TableCell>
-                <TableCell>{room.languages}</TableCell>
+            {paginatedReports.map((report) => (
+              <TableRow key={report.id}>
+                <TableCell>{report.id}</TableCell>
+                <TableCell>{report.reportBy}</TableCell>
+                <TableCell>{report.roomReportedFrom}</TableCell>
+                <TableCell>{report.reportType}</TableCell>
+                <TableCell>{report.reportedOn}</TableCell>
+                <TableCell>{report.reportDetails}</TableCell>
                 <TableCell>
                   <Badge
-                    variant={room.status === 'Active' ? 'default' : 'secondary'}
+                    variant={
+                      report.status === 'Active'
+                        ? 'default'
+                        : report.status === 'Pending'
+                        ? 'secondary'
+                        : report.status === 'Reviewed'
+                        ? 'destructive'
+                        : 'secondary'
+                    }
                   >
-                    {room.status}
+                    {report.status}
                   </Badge>
                 </TableCell>
 
                 <TableCell className="text-right">
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button type="button" size="sm" variant="outline">
+                      <Button size="sm" variant="outline">
                         <EyeIcon className="h-4 w-4" />
                       </Button>
                     </DialogTrigger>
-                    <DialogContent showCloseButton={false}>
-                      <DialogHeader className="border-b pb-4">
-                        <div className="flex justify-between">
+                    <DialogContent showCloseButton={false} className="min-w-xl">
+                      <DialogHeader>
+                        <div className="flex justify-between items-center">
                           <div>
-                            <DialogTitle>Room Details - {room.id}</DialogTitle>
+                            <DialogTitle>Report Details</DialogTitle>
                             <DialogDescription>
-                              See more details about this room here.
+                              See the details of the report below.
                             </DialogDescription>
                           </div>
                           <div>
                             <DialogClose asChild>
-                              <Button size="sm" variant="outline">
+                              <Button variant="outline" size="sm">
                                 <XIcon className="h-4 w-4" />
                               </Button>
                             </DialogClose>
                           </div>
                         </div>
                       </DialogHeader>
-                      <div className="flex justify-between items-center">
+                      <div className="grid grid-cols-3 gap-4">
                         <div>
-                          <h3 className="font-semibold text-sm text-purple-600 mb-1">
-                            Language Learning
+                          <h3 className="font-semibold text-sm text-purple-600">
+                            Reported By
                           </h3>
-                          <p className="text-xs font-medium">
-                            {room.languages}
+                          <p className="font-medium text-sm">
+                            {report.reportBy}
                           </p>
                         </div>
                         <div>
-                          <h3 className="font-semibold text-sm text-purple-600 mb-1">
-                            Create By
+                          <h3 className="font-semibold text-sm text-purple-600">
+                            Room Reported From
                           </h3>
-                          <p className="text-xs font-medium">
-                            {room.createdBy}
+                          <p className="font-medium text-sm">
+                            {report.roomReportedFrom}
                           </p>
                         </div>
                         <div>
-                          <h3 className="font-semibold text-sm text-purple-600 mb-1">
-                            Members
+                          <h3 className="font-semibold text-sm text-purple-600">
+                            Report On
                           </h3>
-                          <p className="text-xs font-medium text-center">
-                            {room.members}
+                          <p className="font-medium text-sm">
+                            {report.reportedOn}
+                          </p>
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-sm text-purple-600">
+                            Report Type
+                          </h3>
+                          <Badge>{report.reportType}</Badge>
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-sm text-purple-600">
+                            Report Date
+                          </h3>
+                          <p className="font-medium text-sm">
+                            {report.reportedOn}
                           </p>
                         </div>
                       </div>
-                      <div>
-                        <div className="relative">
-                          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                          <Input placeholder="Search Users" className="pl-9" />
+
+                      <div className="space-y-2">
+                        <div>
+                          <h3 className="font-semibold text-sm text-purple-600 ">
+                            Report Details
+                          </h3>
+                          <div className="border border-rose-200 bg-rose-100 px-4 py-2 mt-2 rounded-sm">
+                            <p className="font-medium text-sm">
+                              Lorem ipsum, dolor sit amet consectetur
+                              adipisicing elit. Praesentium sequi quae nesciunt
+                              excepturi est rerum facilis nostrum in illo ipsa
+                              placeat, molestias eius, dicta doloribus!
+                              Praesentium, obcaecati fuga. Error nihil ducimus
+                              perspiciatis eius qui inventore, deserunt
+                              accusamus libero a tenetur!
+                            </p>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h3 className="font-semibold text-sm text-purple-600">
+                            View Attachment
+                          </h3>
+                          <div className="w-[400px] aspect-square relative mt-1">
+                            <Image
+                              src="/blog/blog-1.jpg"
+                              alt="Attachment"
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
                         </div>
                       </div>
-                      <ScrollArea className="h-90">
-                        <div className="space-y-2">
-                          {users.map((user) => (
-                            <div
-                              key={user.id}
-                              className="flex items-center border-b py-2 px-3"
-                            >
-                              {/* Avatar */}
-
-                              <div>
-                                <Avatar className="h-10 w-10">
-                                  {user.avatar ? (
-                                    <AvatarImage
-                                      src={user.avatar}
-                                      alt={user.name}
-                                    />
-                                  ) : (
-                                    <AvatarFallback>
-                                      {user.name
-                                        .split(' ')
-                                        .map((n) => n[0])
-                                        .join('')
-                                        .toUpperCase()}
-                                    </AvatarFallback>
-                                  )}
-                                </Avatar>
-                              </div>
-
-                              {/* Name + Email */}
-                              <div className="flex flex-col ml-3 flex-1">
-                                <span className="font-medium text-sm">
-                                  {user.name}
-                                </span>
-                                <span className="text-xs text-muted-foreground">
-                                  {user.email}
-                                </span>
-                              </div>
-
-                              {/* View Button */}
-
-                              <div>
-                                <Button
-                                  type="button"
-                                  size="sm"
-                                  variant="outline"
-                                >
-                                  <EyeIcon className="h-4 w-4 text-muted-foreground" />
-                                </Button>
-                              </div>
-                            </div>
-                          ))}
+                      <DialogFooter className="sm:justify-between items-center">
+                        <div>
+                          <h3 className="font-semibold text-sm text-purple-600">
+                            Take Action
+                          </h3>
+                          <div className="space-x-2">
+                            <Button variant="default">Kick</Button>
+                            <Button variant="destructive">Ban</Button>
+                          </div>
                         </div>
-                      </ScrollArea>
+
+                        <div>
+                          <Button variant="outline">Resolve</Button>
+                        </div>
+                      </DialogFooter>
                     </DialogContent>
                   </Dialog>
 
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant="outline"
-                    className="ml-2"
-                  >
+                  <Button size="sm" variant="outline" className="ml-2">
                     <TrashIcon className="h-4 w-4" />
                   </Button>
                 </TableCell>
