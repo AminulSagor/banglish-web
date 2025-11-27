@@ -1,32 +1,25 @@
-import { MailCheck, UserRoundCheck, UsersRound } from 'lucide-react';
+import { FlagOff, UserRoundCheck, UsersRound } from 'lucide-react';
 import MetricCard from '../../_components/metric-card';
 
-const dashboardMetricsData = [
-  {
-    title: 'Active Users',
-    value: 10,
-    icon: <UserRoundCheck size={22} />,
-    footerText: 'Last 30 days',
-    footerBadge: '+34.5%',
-  },
+const usersMetricsData = [
   {
     title: 'Total Users',
-    value: 200,
+    value: 10,
     icon: <UsersRound size={22} />,
     footerText: 'Last 30 days',
     footerBadge: '+34.5%',
   },
   {
-    title: 'Active Rooms',
-    value: 45,
-    icon: <MailCheck size={22} />,
+    title: 'Verified Users',
+    value: 200,
+    icon: <UserRoundCheck size={22} />,
     footerText: 'Last 30 days',
     footerBadge: '+34.5%',
   },
   {
-    title: 'Empty Rooms',
+    title: 'Banned Users',
     value: 45,
-    icon: <MailCheck size={22} />,
+    icon: <FlagOff size={22} />,
     footerText: 'Last 30 days',
     footerBadge: '+34.5%',
   },
@@ -34,7 +27,7 @@ const dashboardMetricsData = [
 const RowOne = () => {
   return (
     <>
-      {dashboardMetricsData.map((metric) => (
+      {usersMetricsData.map((metric) => (
         <MetricCard
           key={metric.title}
           footerBadge={metric.footerBadge}

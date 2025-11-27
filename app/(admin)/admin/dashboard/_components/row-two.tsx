@@ -18,10 +18,13 @@ import {
 import {
   ChartConfig,
   ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { useState } from 'react';
+import { UserGrowthByCountry } from './user-growth-by-country';
 
 type ChartPoint = {
   month: string;
@@ -73,11 +76,9 @@ const RowTwo = () => {
 
   return (
     <>
-      <Card className="col-span-2">
+      <Card className="col-span-3">
         <CardHeader className="flex justify-between items-center">
           <CardTitle className="text-xl">Total New Users</CardTitle>
-
-          {/* fixed here */}
           <Select
             onValueChange={(value: string) =>
               setPeriod(value as 'six-month' | 'twelve-month')
@@ -92,11 +93,10 @@ const RowTwo = () => {
             </SelectContent>
           </Select>
         </CardHeader>
-
         <CardContent>
           <ChartContainer config={chartConfig}>
             <BarChart accessibilityLayer data={cData[period]}>
-              <CartesianGrid vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="month"
                 tickLine={false}
@@ -108,7 +108,7 @@ const RowTwo = () => {
               <YAxis
                 dataKey="users"
                 tickLine={false}
-                tickMargin={10}
+                tickMargin={0}
                 axisLine={false}
               />
 
@@ -116,19 +116,15 @@ const RowTwo = () => {
 
               {/* match dataKey with chartConfig */}
               <Bar dataKey="users" fill="var(--color-users)" radius={4} />
+              <ChartLegend content={<ChartLegendContent />} />
             </BarChart>
           </ChartContainer>
         </CardContent>
-
-        <CardFooter className="flex items-center justify-center">
-          <p className="text-sm text-muted-foreground ">
-            {' '}
-            {period === 'six-month' ? 'Last 6 months' : 'Last 12 months'}
-          </p>
-        </CardFooter>
       </Card>
 
-      <Card className="col-span-3"></Card>
+      {/* <Card className="col-span-3"></Card> */}
+      {/* <ChartAreaInteractive /> */}
+      <UserGrowthByCountry />
     </>
   );
 };
