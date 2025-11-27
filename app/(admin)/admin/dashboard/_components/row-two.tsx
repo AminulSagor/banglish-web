@@ -24,7 +24,6 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { useState } from 'react';
-import { ChartAreaInteractive } from './area-chart';
 import { UserGrowthByCountry } from './user-growth-by-country';
 
 type ChartPoint = {
@@ -77,11 +76,9 @@ const RowTwo = () => {
 
   return (
     <>
-      <Card className="col-span-2">
+      <Card className="col-span-3">
         <CardHeader className="flex justify-between items-center">
           <CardTitle className="text-xl">Total New Users</CardTitle>
-
-          {/* fixed here */}
           <Select
             onValueChange={(value: string) =>
               setPeriod(value as 'six-month' | 'twelve-month')
@@ -96,15 +93,10 @@ const RowTwo = () => {
             </SelectContent>
           </Select>
         </CardHeader>
-
-        <CardContent className="h-[480px]">
-          <ChartContainer className="h-full" config={chartConfig}>
-            <BarChart
-              accessibilityLayer
-              data={cData[period]}
-              margin={{ right: 250 }}
-            >
-              <CartesianGrid vertical={false} />
+        <CardContent>
+          <ChartContainer config={chartConfig}>
+            <BarChart accessibilityLayer data={cData[period]}>
+              <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="month"
                 tickLine={false}
@@ -116,7 +108,7 @@ const RowTwo = () => {
               <YAxis
                 dataKey="users"
                 tickLine={false}
-                tickMargin={10}
+                tickMargin={0}
                 axisLine={false}
               />
 

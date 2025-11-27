@@ -8,7 +8,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer,
 } from 'recharts';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import {
@@ -57,17 +56,14 @@ const chartConfig = {
 // ---------------------------
 export function UserGrowthByCountry() {
   return (
-    <Card className=" col-span-3">
-      <CardHeader>
+    <Card className="col-span-3">
+      <CardHeader className="flex justify-between items-center">
         <CardTitle className="text-xl">User Growth by Country</CardTitle>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="">
         <ChartContainer config={chartConfig}>
-          <AreaChart
-            data={chartData}
-            margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
-          >
+          <AreaChart data={chartData}>
             <defs>
               <linearGradient id="fill2021" x1="0" y1="0" x2="0" y2="1">
                 <stop
