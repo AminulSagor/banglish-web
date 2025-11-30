@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
+import Link from 'next/link';
 
 const rooms = [
   {
@@ -220,9 +221,11 @@ const RoomList = () => {
             </div>
 
             <div>
-              <GradientButton className="w-full rounded-md py-1 text-sm">
-                Join Room
-              </GradientButton>
+              <Link href={`/room/${room.id}`}>
+                <GradientButton className="w-full rounded-md py-1 text-sm">
+                  Join Room
+                </GradientButton>
+              </Link>
             </div>
           </div>
         ))}
