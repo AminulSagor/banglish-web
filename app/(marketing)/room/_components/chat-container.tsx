@@ -149,7 +149,6 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
 
       <div className="flex-1 overflow-hidden">
         <ChatMessages messages={messages} currentUser={currentUser} />
-        <div ref={messagesEndRef} />
       </div>
 
       <ChatInput onSendMessage={handleSendMessage} />

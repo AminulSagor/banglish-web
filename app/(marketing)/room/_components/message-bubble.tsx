@@ -1,6 +1,14 @@
-import React from 'react';
-import { Check, CheckCheck } from 'lucide-react';
+import React, { useState } from 'react';
+import { CheckCheck, MoreVertical } from 'lucide-react';
 import { Message } from './types';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import ReportMenu from './report-menu';
 
 interface MessageBubbleProps {
   message: Message;
@@ -30,12 +38,9 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
         </div>
       )}
 
-      {/* Message bubble */}
-      <div
-        className={`flex flex-col space-y-1 max-w-[70%] ${
-          message.isOwn ? 'items-end' : 'items-start'
-        }`}
-      >
+      {/* Bubble + Menu */}
+      <div className="relative flex flex-col max-w-[70%]">
+        {/* Sender name */}
         {!message.isOwn && showAvatar && (
           <span className="text-xs text-gray-600 px-2">
             {message.sender.name}
@@ -43,28 +48,42 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
         )}
 
         <div
-          className={`flex items-end space-x-2 ${
-            message.isOwn ? 'flex-row-reverse space-x-reverse' : ''
+          className={`flex items-start gap-1 ${
+            message.isOwn ? 'flex-row-reverse' : ''
           }`}
         >
+          {/* Message Bubble */}
           <div
-            className={`px-4 py-2 rounded-2xl ${
+            className={`px-4 py-2 rounded-2xl relative ${
               message.isOwn
                 ? 'bg-blue-500 text-white rounded-br-md'
                 : 'bg-white border border-gray-200 rounded-bl-md'
             }`}
           >
-            <p className="text-sm">{message.content}</p>
+            <p className="text-sm leading-relaxed break-words">
+              {message.content}
+            </p>
+
+            {/* Time + ticks INSIDE bubble */}
+            <div
+              className={`flex items-center gap-1 text-[10px] mt-1 opacity-80 ${
+                message.isOwn ? 'justify-end' : 'justify-start'
+              }`}
+            >
+              <span>{formatTime(message.timestamp)}</span>
+
+              {message.isOwn && (
+                <CheckCheck className="w-3 h-3 text-white opacity-80" />
+              )}
+            </div>
           </div>
 
-          <div className="flex items-center space-x-1 text-xs text-gray-500">
-            <span>{formatTime(message.timestamp)}</span>
-            {message.isOwn && <CheckCheck className="w-3 h-3 text-blue-500" />}
-          </div>
+          {/* 3-dot menu ONLY for other user's messages */}
+          {!message.isOwn && <ReportMenu />}
         </div>
       </div>
 
-      {/* Current user's avatar (hidden but for spacing) */}
+      {/* Placeholder for own message alignment */}
       {message.isOwn && <div className="w-8 h-8 flex-shrink-0" />}
     </div>
   );
